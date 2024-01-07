@@ -11,64 +11,61 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    @State private var textInput: String = ""
+    private let currentDate: String = getCurrentDate()
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
+        VStack{
+           
+            Text(currentDate)
+            
+            ScrollView{
+                TextEditor(text: $textInput)
+                    .frame(height: 200.0)
+                    .lineSpacing(3)
+            }
+            
+            HStack{
+                Button("打开编年史", action: openHistory)
+                
+                Spacer()
+                Button("上传"){ uploadDiary(textInput)
                 }
-                .onDelete(perform: deleteItems)
+
             }
-            .toolbar {
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
+            .padding([.leading, .bottom, .trailing], 40.0)
         }
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+}
 
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
+func openHistory() {
+    print("openHistory")
+}
+
+func uploadDiary(_ textInput: String) {
+    // 1. parse the input
+    // 2. store the parse result
+    let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
+    let regex = try? NSRegularExpression(pattern: pattern, options: [])
+    guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count))
+    else{
+            print("Couldn't find any match!")
+            return
     }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+    for result in results
+        {
+            print((textInput as NSString).substring(with: result.range))
         }
-    }
+    
+}
+
+private func getCurrentDate() -> String{
+    let date = Date()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd"
+    let dateString = formatter.string(from: date)
+    return dateString
 }
 
 private let itemFormatter: DateFormatter = {
@@ -81,3 +78,5 @@ private let itemFormatter: DateFormatter = {
 #Preview {
     ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
+
+
