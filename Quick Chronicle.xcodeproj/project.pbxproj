@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		176659D12B4AD5E0005EC544 /* DailyRecord+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659CF2B4AD5E0005EC544 /* DailyRecord+CoreDataClass.swift */; };
-		176659D22B4AD5E0005EC544 /* DailyRecord+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659D02B4AD5E0005EC544 /* DailyRecord+CoreDataProperties.swift */; };
+		176659D12B4AD5E0005EC544 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659CF2B4AD5E0005EC544 /* DataController.swift */; };
 		17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */; };
 		17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC52B4A52D7007FCC6D /* ContentView.swift */; };
 		17C1DEC82B4A52D9007FCC6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C1DEC72B4A52D9007FCC6D /* Assets.xcassets */; };
 		17C1DECB2B4A52D9007FCC6D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C1DECA2B4A52D9007FCC6D /* Preview Assets.xcassets */; };
-		17C1DECD2B4A52D9007FCC6D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DECC2B4A52D9007FCC6D /* Persistence.swift */; };
 		17C1DED02B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DECE2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld */; };
 		17C1DEDB2B4A52D9007FCC6D /* Quick_ChronicleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEDA2B4A52D9007FCC6D /* Quick_ChronicleTests.swift */; };
 		17C1DEE52B4A52D9007FCC6D /* Quick_ChronicleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEE42B4A52D9007FCC6D /* Quick_ChronicleUITests.swift */; };
@@ -39,14 +37,12 @@
 
 /* Begin PBXFileReference section */
 		176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick ChronicleDebug.entitlements"; sourceTree = "<group>"; };
-		176659CF2B4AD5E0005EC544 /* DailyRecord+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyRecord+CoreDataClass.swift"; sourceTree = "<group>"; };
-		176659D02B4AD5E0005EC544 /* DailyRecord+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyRecord+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		176659CF2B4AD5E0005EC544 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		17C1DEC02B4A52D7007FCC6D /* Quick Chronicle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Chronicle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quick_ChronicleApp.swift; sourceTree = "<group>"; };
 		17C1DEC52B4A52D7007FCC6D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		17C1DEC72B4A52D9007FCC6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17C1DECA2B4A52D9007FCC6D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		17C1DECC2B4A52D9007FCC6D /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		17C1DECF2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Quick_Chronicle.xcdatamodel; sourceTree = "<group>"; };
 		17C1DED12B4A52D9007FCC6D /* Quick_Chronicle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quick_Chronicle.entitlements; sourceTree = "<group>"; };
 		17C1DED62B4A52D9007FCC6D /* Quick ChronicleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Quick ChronicleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,11 +77,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		176659D32B4D0FFC005EC544 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				17C1DECE2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld */,
+				176659CF2B4AD5E0005EC544 /* DataController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		176659D42B4D3106005EC544 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17C1DEC52B4A52D7007FCC6D /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		17C1DEB72B4A52D7007FCC6D = {
 			isa = PBXGroup;
 			children = (
-				176659CF2B4AD5E0005EC544 /* DailyRecord+CoreDataClass.swift */,
-				176659D02B4AD5E0005EC544 /* DailyRecord+CoreDataProperties.swift */,
 				17C1DEC22B4A52D7007FCC6D /* Quick Chronicle */,
 				17C1DED92B4A52D9007FCC6D /* Quick ChronicleTests */,
 				17C1DEE32B4A52D9007FCC6D /* Quick ChronicleUITests */,
@@ -106,13 +117,12 @@
 		17C1DEC22B4A52D7007FCC6D /* Quick Chronicle */ = {
 			isa = PBXGroup;
 			children = (
-				176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */,
 				17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */,
-				17C1DEC52B4A52D7007FCC6D /* ContentView.swift */,
+				176659D42B4D3106005EC544 /* Views */,
+				176659D32B4D0FFC005EC544 /* Model */,
+				176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */,
 				17C1DEC72B4A52D9007FCC6D /* Assets.xcassets */,
-				17C1DECC2B4A52D9007FCC6D /* Persistence.swift */,
 				17C1DED12B4A52D9007FCC6D /* Quick_Chronicle.entitlements */,
-				17C1DECE2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld */,
 				17C1DEC92B4A52D9007FCC6D /* Preview Content */,
 			);
 			path = "Quick Chronicle";
@@ -273,10 +283,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17C1DECD2B4A52D9007FCC6D /* Persistence.swift in Sources */,
 				17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */,
-				176659D22B4AD5E0005EC544 /* DailyRecord+CoreDataProperties.swift in Sources */,
-				176659D12B4AD5E0005EC544 /* DailyRecord+CoreDataClass.swift in Sources */,
+				176659D12B4AD5E0005EC544 /* DataController.swift in Sources */,
 				17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */,
 				17C1DED02B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld in Sources */,
 			);
