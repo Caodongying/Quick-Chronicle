@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "DailyRecord")
+    let container = NSPersistentContainer(name: "Quick_Chronicle")
     
     init() {
         container.loadPersistentStores { desc, error in

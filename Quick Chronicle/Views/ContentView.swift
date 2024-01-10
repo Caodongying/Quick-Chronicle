@@ -80,7 +80,7 @@ func uploadDiary(_ textInput: String) {
     
 }
 
-private func getCurrentDate() -> String{
+private func getCurrentDate() -> String {
     let date = Date()
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy/MM/dd"
