@@ -26,7 +26,8 @@ class DataController: ObservableObject {
             try context.save()
             print("Data successully saved!")
         } catch {
-            print("Failed to save the data")
+            let nsError = error as NSError
+            fatalError("Failed to save the data: \(nsError), \(nsError.userInfo)")
         }
     }
     

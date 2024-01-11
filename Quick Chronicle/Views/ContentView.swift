@@ -10,7 +10,8 @@ import CoreData
 
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.dismiss) var dismiss
 
     @State private var textInput: String = ""
     private let currentDate: String = getCurrentDate()
@@ -37,30 +38,25 @@ struct ContentView: View {
             .padding([.leading, .bottom, .trailing], 40.0)
         }
     }
-
-}
-
-func openHistory() {
-    print("openHistory")
-}
-
-func uploadDiary(_ textInput: String) {
-    // 1. parse the input
-    // 2. store the parse result
     
-    // define the regular expression
-    let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
-    let regex = try? NSRegularExpression(pattern: pattern, options: [])
-    
-    // look up the input
-    guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count))
-    else{
-            print("Couldn't find any 【keyword】details match!")
-            return
-    }
-    
-    for result in results
-    // result: the range of one keyword-detail pair
+    // functions
+    func uploadDiary(_ textInput: String) {
+        // 1. parse the input
+        // 2. store the parse result
+        
+        // define the regular expression
+        let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        
+        // look up the input
+        guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count))
+        else{
+                print("Couldn't find any 【keyword】details match!")
+                return
+        }
+        
+        for result in results
+        // result: the range of one keyword-detail pair
         {
             let pair = (textInput as NSString).substring(with: result.range)
             
@@ -73,12 +69,20 @@ func uploadDiary(_ textInput: String) {
                 return
             }
             let keyword = (pair as NSString).substring(with: rangeKeywords.range)
-            let detail = (pair as NSString).substring(with: NSRange(location: rangeKeywords.range.upperBound, length: pair.count - rangeKeywords.range.upperBound))
+            let detail = (pair as NSString).substring(with: NSRange(location: rangeKeywords.range.upperBound, length: pair.count - rangeKeywords.range.upperBound)).trim()
         
-            print("key word: \(keyword)  detail: \(detail) \n")
+            print("key word: \(keyword)  detail: \(detail)")
+            DataController().addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
+            dismiss()
         }
+        print("成功保存！")
+    }
     
+    func openHistory() {
+        print("openHistory")
+    }
 }
+
 
 private func getCurrentDate() -> String {
     let date = Date()
@@ -88,17 +92,16 @@ private func getCurrentDate() -> String {
     return dateString
 }
 
+extension String {
+    func trim() -> String {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
+   }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-//        let moc = NSManagedObjectContext()
-//        let record = DailyRecord(context: moc)
-//        record.id = UUID()
-//        record.keyword = "keyword"
-//        record.detail = "detail"
-//        record.date = Date()
-//        
-//        return ContentView()
         ContentView()
     }
 }
+
+
