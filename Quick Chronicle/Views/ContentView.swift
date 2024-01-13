@@ -11,6 +11,7 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext
+    //let viewContext: NSManagedObjectContext = (( NSApplication.shared.delegate as? AppDelegate)?.NSPersistentContainer.viewContext)!
     @Environment(\.dismiss) var dismiss
 
     @State private var textInput: String = ""
@@ -40,7 +41,7 @@ struct ContentView: View {
     }
     
     // functions
-    func uploadDiary(_ textInput: String) {
+    private func uploadDiary(_ textInput: String) {
         // 1. parse the input
         // 2. store the parse result
         
@@ -68,7 +69,8 @@ struct ContentView: View {
                 print("Couldn't find keyword!")
                 return
             }
-            let keyword = (pair as NSString).substring(with: rangeKeywords.range)
+            let keyword = (pair as NSString).substring(with: NSRange(location: 1, length: (rangeKeywords.range.length)-2)).trim()
+            
             let detail = (pair as NSString).substring(with: NSRange(location: rangeKeywords.range.upperBound, length: pair.count - rangeKeywords.range.upperBound)).trim()
         
             print("key word: \(keyword)  detail: \(detail)")
@@ -104,4 +106,6 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-
+//#Preview {
+//    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//}
