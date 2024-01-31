@@ -13,6 +13,8 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext
     //let viewContext: NSManagedObjectContext = (( NSApplication.shared.delegate as? AppDelegate)?.NSPersistentContainer.viewContext)!
     @Environment(\.dismiss) var dismiss
+    @FetchRequest(entity: DailyRecord.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \DailyRecord.date, ascending: false)]) var records: FetchedResults<DailyRecord>
+
 
     @State private var textInput: String = ""
     private let currentDate: String = getCurrentDate()
@@ -38,14 +40,18 @@ struct ContentView: View {
             }
             .padding([.leading, .bottom, .trailing], 40.0)
         }
+        
     }
     
     // functions
+    
     private func uploadDiary(_ textInput: String) {
         // 1. parse the input
         // 2. store the parse result
         
         // define the regular expression
+        // Todo: remove this later!!
+        DataController().deleteStorage()
         let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
         let regex = try? NSRegularExpression(pattern: pattern, options: [])
         
@@ -78,6 +84,9 @@ struct ContentView: View {
             dismiss()
         }
         print("成功保存！")
+        for item in records {
+            print("record - ", item)
+        }
     }
     
     func openHistory() {

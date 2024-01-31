@@ -42,6 +42,16 @@ class DataController: ObservableObject {
         save(context: context)
     }
     
+    func deleteStorage() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = DailyRecord.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try container.viewContext.execute(deleteRequest)
+            try container.viewContext.save()
+        } catch {
+            print("Failed to delete all data: \(error)")
+        }
+    }
 }
 
 //struct PersistenceController {
