@@ -87,6 +87,12 @@ struct ContentView: View {
         for item in records {
             print("record - ", item)
         }
+        
+        // Todo - 0608
+        // 如何查看已经保存在数据库中的数据
+        // 如何读取数据库中的数据
+        // 删除数据（在数据库UI里）
+        // 需要继续学习Swift的CoreData
     }
     
     func openHistory() {
