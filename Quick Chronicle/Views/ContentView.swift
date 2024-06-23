@@ -96,8 +96,26 @@ struct ContentView: View {
     }
     
     func openHistory() {
+        let records = fetchDailyRecord(context: viewContext)
+        for record in records{
+            print("detail: \(String(describing: record.detail))")
+            print("id: \(String(describing: record.id))")
+        }
         print("openHistory")
     }
+    
+    func fetchDailyRecord(context: NSManagedObjectContext) -> [DailyRecord]{
+        let fetchRequest: NSFetchRequest<DailyRecord> = DailyRecord.fetchRequest()
+        
+        do{
+            let records = try context.fetch(fetchRequest)
+            return records
+        } catch {
+            print("Failed to fetch daily records: \(error)")
+            return []
+        }
+    }
+    
 }
 
 
