@@ -50,17 +50,18 @@ struct ContentView: View {
         // 2. store the parse result
         
         // define the regular expression
-        // Todo: remove this later!!
-        DataController().deleteStorage()
-        let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
+        // let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
+        // DataController().deleteStorage()
+        let pattern = "【(.*?)】([^【]*)"
         let regex = try? NSRegularExpression(pattern: pattern, options: [])
         
         // look up the input
-        guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count))
+        guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count)), !results.isEmpty
         else{
                 print("Couldn't find any 【keyword】details match!")
                 return
         }
+        
         
         for result in results
         // result: the range of one keyword-detail pair
@@ -98,6 +99,7 @@ struct ContentView: View {
     func openHistory() {
         let records = fetchDailyRecord(context: viewContext)
         for record in records{
+            print("key: \(String(describing: record.keyword))")
             print("detail: \(String(describing: record.detail))")
             print("id: \(String(describing: record.id))")
         }
