@@ -52,7 +52,7 @@ struct ContentView: View {
         // define the regular expression
         // let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
         // DataController().deleteStorage()
-        let pattern = "【(.*?)】([^【]*)"
+        let pattern = "【[^【】]*】([^【]*)"
         let regex = try? NSRegularExpression(pattern: pattern, options: [])
         
         // look up the input
@@ -71,7 +71,7 @@ struct ContentView: View {
             // retrieve the keywords and details
             let subpattern = "【.*】"
             let subregex = try? NSRegularExpression(pattern: subpattern, options: [])
-            guard let rangeKeywords = subregex?.firstMatch(in: pair, options: [], range: NSRange(location: 0, length: pair.count))
+            guard let rangeKeywords = subregex?.firstMatch(in: pair, options: [], range: NSRange(location: 0, length: pair.count)), !rangeKeywords.resultType.isEmpty
             else{
                 print("Couldn't find keyword!")
                 return
@@ -81,19 +81,13 @@ struct ContentView: View {
             let detail = (pair as NSString).substring(with: NSRange(location: rangeKeywords.range.upperBound, length: pair.count - rangeKeywords.range.upperBound)).trim()
         
             print("key word: \(keyword)  detail: \(detail)")
-            DataController().addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
+            DataController.shared.addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
             dismiss()
         }
         print("成功保存！")
         for item in records {
             print("record - ", item)
         }
-        
-        // Todo - 0608
-        // 如何查看已经保存在数据库中的数据
-        // 如何读取数据库中的数据
-        // 删除数据（在数据库UI里）
-        // 需要继续学习Swift的CoreData
     }
     
     func openHistory() {

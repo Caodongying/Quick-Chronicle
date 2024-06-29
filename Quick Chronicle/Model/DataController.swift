@@ -10,16 +10,21 @@ import Foundation
 import CoreData
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "Quick_Chronicle")
+    // use singleton pattern as suggested in the documentation
+    static let shared = DataController()
     
-    init() {
-        container.loadPersistentStores { desc, error in
+    private init() {}
+    
+    var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Quick_Chronicle")
+        container.loadPersistentStores { _, error in
             if let error = error {
                 print("Failed to load the data \(error.localizedDescription)")
             }
         }
-    }
-    
+        return container
+    }()
+        
     func save(context: NSManagedObjectContext) {
         // save context to storage
         do {
@@ -46,8 +51,8 @@ class DataController: ObservableObject {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = DailyRecord.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
-            try container.viewContext.execute(deleteRequest)
-            try container.viewContext.save()
+            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.save()
         } catch {
             print("Failed to delete all data: \(error)")
         }

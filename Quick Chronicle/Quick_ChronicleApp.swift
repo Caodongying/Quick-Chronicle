@@ -10,12 +10,12 @@ import SwiftUI
 @main
 struct Quick_ChronicleApp: App {
 
-    @StateObject private var dataController = DataController()
+    @StateObject private var dataController = DataController.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
+                .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
         }
     }
 }
