@@ -11,12 +11,16 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext
-    //let viewContext: NSManagedObjectContext = (( NSApplication.shared.delegate as? AppDelegate)?.NSPersistentContainer.viewContext)!
     @Environment(\.dismiss) var dismiss
+    
     @FetchRequest(entity: DailyRecord.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \DailyRecord.date, ascending: false)]) var records: FetchedResults<DailyRecord>
 
 
     @State private var textInput: String = ""
+    @State private var showAlert = false
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
+    
     private let currentDate: String = getCurrentDate()
     
     var body: some View {
@@ -34,34 +38,37 @@ struct ContentView: View {
                 Button("打开编年史", action: openHistory)
                 
                 Spacer()
-                Button("上传"){ uploadDiary(textInput)
+                Button("上传"){ uploadDiary()
                 }
 
             }
             .padding([.leading, .bottom, .trailing], 40.0)
         }
         
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text(alertTitle),
+                message: Text(alertMessage)
+            )
+        }
     }
     
     // functions
     
-    private func uploadDiary(_ textInput: String) {
+    private func uploadDiary() {
         // 1. parse the input
         // 2. store the parse result
-        
-        // define the regular expression
-        // let pattern = "【(.*?)】((?!【).|\n)*" // \n should be \s
-        // DataController().deleteStorage()
         let pattern = "【[^【】]*】([^【]*)"
         let regex = try? NSRegularExpression(pattern: pattern, options: [])
         
         // look up the input
         guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count)), !results.isEmpty
         else{
-                print("Couldn't find any 【keyword】details match!")
+                showAlert = true
+                alertTitle = "Oops🫣"
+                alertMessage = "Don't forget to add keyword wrapper 【】."
                 return
         }
-        
         
         for result in results
         // result: the range of one keyword-detail pair
@@ -80,14 +87,16 @@ struct ContentView: View {
             
             let detail = (pair as NSString).substring(with: NSRange(location: rangeKeywords.range.upperBound, length: pair.count - rangeKeywords.range.upperBound)).trim()
         
-            print("key word: \(keyword)  detail: \(detail)")
-            DataController.shared.addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
-            dismiss()
+            do{
+                try DataController.shared.addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
+            } catch {
+                // pop up - failed to save
+                showAlert = true
+                alertMessage = "Failed to save daily records: \(error.localizedDescription)"
+            }
+            clearTextEditor()
         }
-        print("成功保存！")
-        for item in records {
-            print("record - ", item)
-        }
+
     }
     
     func openHistory() {
@@ -97,7 +106,6 @@ struct ContentView: View {
             print("detail: \(String(describing: record.detail))")
             print("id: \(String(describing: record.id))")
         }
-        print("openHistory")
     }
     
     func fetchDailyRecord(context: NSManagedObjectContext) -> [DailyRecord]{
@@ -112,6 +120,9 @@ struct ContentView: View {
         }
     }
     
+    private func clearTextEditor(){
+        textInput = ""
+    }
 }
 
 
@@ -134,6 +145,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
 
 //#Preview {
 //    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

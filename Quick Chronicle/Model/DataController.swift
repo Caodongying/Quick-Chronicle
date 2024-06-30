@@ -24,19 +24,8 @@ class DataController: ObservableObject {
         }
         return container
     }()
-        
-    func save(context: NSManagedObjectContext) {
-        // save context to storage
-        do {
-            try context.save()
-            print("Data successfully saved!")
-        } catch {
-            let nsError = error as NSError
-            fatalError("Failed to save the data: \(nsError), \(nsError.userInfo)")
-        }
-    }
     
-    func addDailyRecord(keyword: String, detail: String, context: NSManagedObjectContext) {
+    func addDailyRecord(keyword: String, detail: String, context: NSManagedObjectContext) throws{
         let record = DailyRecord(context: context)
         
         record.id = UUID()
@@ -44,7 +33,12 @@ class DataController: ObservableObject {
         record.detail = detail
         record.date = Date()
         
-        save(context: context)
+        do{
+            try context.save()
+        } catch {
+            throw error
+        }
+        
     }
     
     func deleteStorage() {
