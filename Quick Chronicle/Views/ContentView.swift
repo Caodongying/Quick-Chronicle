@@ -20,30 +20,47 @@ struct ContentView: View {
     @State private var showAlert = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
+    @State private var labelMessage: String = ""
+    @State private var showLabel = false
     
     private let currentDate: String = getCurrentDate()
     
     var body: some View {
-        VStack{
-           
-            Text(currentDate)
-            
-            ScrollView{
-                TextEditor(text: $textInput)
-                    .frame(height: 200.0)
-                    .lineSpacing(3)
-            }
-            
-            HStack{
-                Button("打开编年史", action: openHistory)
+        ZStack(alignment: .center){
+            VStack{
+               
+                Text(currentDate)
                 
-                Spacer()
-                Button("上传"){ uploadDiary()
+                ScrollView{
+                    TextEditor(text: $textInput)
+                        .frame(height: 200.0)
+                        .lineSpacing(3)
                 }
+                
+                HStack{
+                    Button("打开编年史", action: openHistory)
+                    
+                    Spacer()
+                    Button("上传"){ uploadDiary()
+                    }
 
+                }
+                .padding([.leading, .bottom, .trailing], 40.0)
             }
-            .padding([.leading, .bottom, .trailing], 40.0)
+            
+            if(showLabel) {
+                HStack{
+                    Text("🎉")
+                    Text(labelMessage)
+                }
+                .padding(10)
+                .background(Color.mint.opacity(0.4))
+                .transition(.opacity)
+                .cornerRadius(8)
+            }
+            
         }
+
         
         .alert(isPresented: $showAlert) {
             Alert(
@@ -55,6 +72,12 @@ struct ContentView: View {
     
     // functions
     
+    private func activateAlert(title: String, msg: String) {
+        showAlert = true
+        alertTitle = title
+        alertMessage = msg
+    }
+    
     private func uploadDiary() {
         // 1. parse the input
         // 2. store the parse result
@@ -64,10 +87,11 @@ struct ContentView: View {
         // look up the input
         guard let results = regex?.matches(in: textInput, options: [], range: NSRange(location: 0, length: textInput.count)), !results.isEmpty
         else{
-                showAlert = true
-                alertTitle = "Oops🫣"
-                alertMessage = "Don't forget to add keyword wrapper 【】."
-                return
+            activateAlert(
+                title: "Oops🫣",
+                msg: "Don't forget to add keyword wrapper 【】."
+            )
+            return
         }
         
         for result in results
@@ -80,7 +104,10 @@ struct ContentView: View {
             let subregex = try? NSRegularExpression(pattern: subpattern, options: [])
             guard let rangeKeywords = subregex?.firstMatch(in: pair, options: [], range: NSRange(location: 0, length: pair.count)), !rangeKeywords.resultType.isEmpty
             else{
-                print("Couldn't find keyword!")
+                activateAlert(
+                    title: "Oops🫣",
+                    msg: "Couldn't find keyword!"
+                )
                 return
             }
             let keyword = (pair as NSString).substring(with: NSRange(location: 1, length: (rangeKeywords.range.length)-2)).trim()
@@ -89,11 +116,28 @@ struct ContentView: View {
         
             do{
                 try DataController.shared.addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
+                    
+                // successfully saved the record
+                withAnimation{
+                    labelMessage = "Record is saved."
+                    showLabel = true
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation{
+                        showLabel = false
+                        labelMessage = ""
+                    }
+                }
+   
             } catch {
                 // pop up - failed to save
-                showAlert = true
-                alertMessage = "Failed to save daily records: \(error.localizedDescription)"
+                activateAlert(
+                    title: "Oops🫣",
+                    msg: "Failed to save daily records: \(error.localizedDescription)"
+                )
             }
+            
             clearTextEditor()
         }
 
@@ -148,6 +192,6 @@ struct ContentView_Previews: PreviewProvider {
 
 
 
-//#Preview {
-//    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//}
+#Preview {
+    ContentView().environment(\.managedObjectContext, DataController.shared.persistentContainer.viewContext)
+}
