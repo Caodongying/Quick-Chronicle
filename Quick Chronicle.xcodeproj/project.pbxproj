@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		176659D12B4AD5E0005EC544 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659CF2B4AD5E0005EC544 /* DataController.swift */; };
+		17A2EAD02C3170BC00A58DEF /* OpenHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2EACF2C3170BC00A58DEF /* OpenHistoryView.swift */; };
+		17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */; };
 		17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */; };
 		17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC52B4A52D7007FCC6D /* ContentView.swift */; };
 		17C1DEC82B4A52D9007FCC6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C1DEC72B4A52D9007FCC6D /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick ChronicleDebug.entitlements"; sourceTree = "<group>"; };
 		176659CF2B4AD5E0005EC544 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		17A2EACF2C3170BC00A58DEF /* OpenHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHistoryView.swift; sourceTree = "<group>"; };
+		17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsHistoryView.swift; sourceTree = "<group>"; };
 		17C1DEC02B4A52D7007FCC6D /* Quick Chronicle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Chronicle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quick_ChronicleApp.swift; sourceTree = "<group>"; };
 		17C1DEC52B4A52D7007FCC6D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				17C1DEC52B4A52D7007FCC6D /* ContentView.swift */,
+				17A2EACF2C3170BC00A58DEF /* OpenHistoryView.swift */,
+				17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -283,7 +289,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */,
 				17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */,
+				17A2EAD02C3170BC00A58DEF /* OpenHistoryView.swift in Sources */,
 				176659D12B4AD5E0005EC544 /* DataController.swift in Sources */,
 				17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */,
 				17C1DED02B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld in Sources */,

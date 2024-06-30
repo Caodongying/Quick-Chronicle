@@ -150,6 +150,7 @@ struct ContentView: View {
             print("detail: \(String(describing: record.detail))")
             print("id: \(String(describing: record.id))")
         }
+        
     }
     
     func fetchDailyRecord(context: NSManagedObjectContext) -> [DailyRecord]{
