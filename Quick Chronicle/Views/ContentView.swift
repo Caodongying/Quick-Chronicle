@@ -41,18 +41,9 @@ struct ContentView: View {
                     
                     
                     HStack{
-                        
-                        Button("打开编年史", action: openHistory)
-                        
-                        NavigationLink(destination: RecordsHistoryView(), isActive: $showHistory){
-                            EmptyView()
+                        NavigationLink(destination: RecordsHistoryView()) {
+                            Text("打开编年史")
                         }
-                        
-                        //Button("打开编年史", action: openHistory)
-                        //                        .sheet(isPresented: $showHistory) {
-                        //                            RecordsHistoryView().environment(\.managedObjectContext, viewContext)
-                        //                        }
-                        
                         Spacer()
                         Button("上传"){ uploadDiary()
                         }
@@ -82,6 +73,7 @@ struct ContentView: View {
                     )
                 }
         }
+        .navigationTitle("快速编年史")
     }
     
     // functions

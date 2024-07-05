@@ -158,6 +158,7 @@ struct RecordsHistoryView: View {
             
         }
         .padding()
+        .navigationTitle("编年史记录")
     }
     
     func searchByDate(){
