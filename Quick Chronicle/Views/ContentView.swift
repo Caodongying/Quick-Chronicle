@@ -35,7 +35,7 @@ struct ContentView: View {
                     TextEditor(text: $textInput)
                         .frame(height: 200.0)
                         .lineSpacing(3)
-                }
+                }.padding()
                 
                 HStack{
                     Button("打开编年史", action: openHistory)
@@ -46,7 +46,7 @@ struct ContentView: View {
 
                 }
                 .padding([.leading, .bottom, .trailing], 40.0)
-            }
+            }.padding()
             
             if(showLabel) {
                 HStack{
@@ -59,7 +59,7 @@ struct ContentView: View {
                 .cornerRadius(8)
             }
             
-        }
+        }.padding()
 
         
         .alert(isPresented: $showAlert) {
@@ -144,6 +144,7 @@ struct ContentView: View {
     }
     
     func openHistory() {
+        print(Date())
         let records = fetchDailyRecord(context: viewContext)
         for record in records{
             print("key: \(String(describing: record.keyword))")

@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+extension DailyRecord {
+    @objc
+    var formattedDate: String { date?.formatted(date: .numeric, time: .omitted) ?? "No Date Available" }
+}
+
 struct RecordsHistoryView: View {
     @State private var showDetailsIsOn = false
     @State private var startDate = Date()
@@ -14,10 +19,17 @@ struct RecordsHistoryView: View {
     @State private var searchByDateText = ""
     @State private var searchByContentText = ""
     
+    @SectionedFetchRequest<String, DailyRecord> (
+        sectionIdentifier: \DailyRecord.formattedDate,
+        sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
+    ) var recordSections
+    
+    @Environment(\.managedObjectContext) var viewContext
+    
     var body: some View {
         VStack {
             HStack{
-                Spacer() // it's so ugly to keep million Spacer(); improve this later
+                // it's so ugly to keep million Spacer(); improve this later
                 
                 Toggle("Show Details", isOn: $showDetailsIsOn)
                 
@@ -36,9 +48,8 @@ struct RecordsHistoryView: View {
                            displayedComponents: .date
                 ).datePickerStyle(.compact)
                 
-                Spacer()
-                
             }
+            .padding()
             
             HStack {
                 Image(systemName: "sparkle.magnifyingglass")
@@ -47,6 +58,7 @@ struct RecordsHistoryView: View {
                 
                 Button("Search", action: searchByDate)
             }
+            .padding()
             //.searchable(text: $searchByDateText, prompt: "search by date")
             
             HStack {
@@ -56,11 +68,28 @@ struct RecordsHistoryView: View {
                 
                 Button("Search", action: searchByContent )
             }
+            .padding()
             
             // show the searching result
             // a list
             
+            VStack {
+                List {
+                    ForEach(recordSections) { recordSection in
+                        HStack {
+                            Text(recordSection.id)
+                            ForEach(recordSection) { record in
+                                if( record.keyword != ""){
+                                    Text(record.keyword! + ";")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
+        .padding()
     }
     
     func searchByDate(){
@@ -69,6 +98,10 @@ struct RecordsHistoryView: View {
     
     func searchByContent(){
         print("Click on butter searchByContent")
+    }
+    
+    func groupByDate(records: [DailyRecord]){
+        
     }
 }
 

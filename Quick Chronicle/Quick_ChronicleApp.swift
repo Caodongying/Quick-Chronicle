@@ -16,7 +16,7 @@ struct Quick_ChronicleApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
-            RecordsHistoryView() // remove this later! Todo: navigation to this view when clicking on 打开编年史
+            RecordsHistoryView().environment(\.managedObjectContext, dataController.persistentContainer.viewContext) // remove this later! Todo: navigation to this view when clicking on 打开编年史
         }
     }
 }
