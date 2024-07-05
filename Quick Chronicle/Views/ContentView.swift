@@ -22,51 +22,65 @@ struct ContentView: View {
     @State private var alertMessage: String = ""
     @State private var labelMessage: String = ""
     @State private var showLabel = false
+    @State private var showHistory = false
     
     private let currentDate: String = getCurrentDate()
     
     var body: some View {
-        ZStack(alignment: .center){
-            VStack{
-               
-                Text(currentDate)
-                
-                ScrollView{
-                    TextEditor(text: $textInput)
-                        .frame(height: 200.0)
-                        .lineSpacing(3)
+        NavigationStack{
+            ZStack(alignment: .center){
+                VStack{
+                    
+                    Text(currentDate)
+                    
+                    ScrollView{
+                        TextEditor(text: $textInput)
+                            .frame(height: 200.0)
+                            .lineSpacing(3)
+                    }.padding()
+                    
+                    
+                    HStack{
+                        
+                        Button("打开编年史", action: openHistory)
+                        
+                        NavigationLink(destination: RecordsHistoryView(), isActive: $showHistory){
+                            EmptyView()
+                        }
+                        
+                        //Button("打开编年史", action: openHistory)
+                        //                        .sheet(isPresented: $showHistory) {
+                        //                            RecordsHistoryView().environment(\.managedObjectContext, viewContext)
+                        //                        }
+                        
+                        Spacer()
+                        Button("上传"){ uploadDiary()
+                        }
+                        
+                    }
+                    .padding([.leading, .bottom, .trailing], 40.0)
                 }.padding()
                 
-                HStack{
-                    Button("打开编年史", action: openHistory)
-                    
-                    Spacer()
-                    Button("上传"){ uploadDiary()
+                if(showLabel) {
+                    HStack{
+                        Text("🎉")
+                        Text(labelMessage)
                     }
-
+                    .padding(10)
+                    .background(Color.mint.opacity(0.4))
+                    .transition(.opacity)
+                    .cornerRadius(8)
                 }
-                .padding([.leading, .bottom, .trailing], 40.0)
+                
             }.padding()
             
-            if(showLabel) {
-                HStack{
-                    Text("🎉")
-                    Text(labelMessage)
-                }
-                .padding(10)
-                .background(Color.mint.opacity(0.4))
-                .transition(.opacity)
-                .cornerRadius(8)
-            }
             
-        }.padding()
-
-        
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text(alertTitle),
-                message: Text(alertMessage)
-            )
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text(alertTitle),
+                        message: Text(alertMessage)
+                    )
+                }
         }
     }
     
@@ -144,7 +158,8 @@ struct ContentView: View {
     }
     
     func openHistory() {
-        print(Date())
+        showHistory.toggle()
+        print("showHistory is: " + String(showHistory))
         let records = fetchDailyRecord(context: viewContext)
         for record in records{
             print("key: \(String(describing: record.keyword))")

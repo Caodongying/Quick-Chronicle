@@ -45,8 +45,15 @@ struct RecordsHistoryView: View {
     @State private var endDate = Date()
     @State private var searchByDateText = ""
     @State private var searchByContentText = ""
-    @State private var resultRange = false
+    @State private var selectThisWeek = false
+    @State private var selectThisMonth = false
+    @State private var selectDuration = false
     @State private var onlyShowStars = false
+    @State private var resultRange:String = ""
+    
+    let thisWeek = "thisweek"
+    let thisMonth = "thismonth"
+    let dateRange = "daterange"
 //    @SectionedFetchRequest<String, DailyRecord> (
 //        sectionIdentifier: \DailyRecord.formattedDate,
 //        sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
@@ -70,9 +77,28 @@ struct RecordsHistoryView: View {
                     TextField("search by content", text: $searchByContentText)
                     
                     HStack{
-                        Toggle("This week", isOn: $resultRange).toggleStyle(.checkbox)
-                        Toggle("This month", isOn: $resultRange).toggleStyle(.checkbox)
-                        Toggle("", isOn: $resultRange).toggleStyle(.checkbox)
+                        // only one of the three checkboxes can be selected. This is a stupid solution, but I don't have better ideas so far.
+                        Toggle("This week", isOn: $selectThisWeek).onChange(of: selectThisWeek){
+                            if selectThisWeek {
+                                selectThisMonth = false
+                                selectDuration = false
+                                resultRange = thisWeek
+                            }
+                        }
+                        Toggle("This month", isOn: $selectThisMonth).onChange(of: selectThisMonth){
+                            if selectThisMonth {
+                                selectThisWeek = false
+                                selectDuration = false
+                                resultRange = thisMonth
+                            }
+                        }
+                        Toggle("", isOn: $selectDuration).onChange(of: selectDuration){
+                            if selectDuration {
+                                selectThisMonth = false
+                                selectThisWeek = false
+                                resultRange = dateRange
+                            }
+                        }
                         
                         DatePicker("From",
                                    selection: $startDate,
@@ -83,8 +109,9 @@ struct RecordsHistoryView: View {
                                    selection: $endDate,
                                    displayedComponents: .date
                         ).datePickerStyle(.compact)
-                    }
+                    }.toggleStyle(.checkbox)
                     
+                   
                 }
                 
                 // show details and stars
