@@ -28,16 +28,16 @@ struct TestRecords: Identifiable {
     let isFavorite: Bool
 }
 
-let recordSections: [TestRecordSections] = [
-    TestRecordSections(id: "2023.12.22", records: [
-        TestRecords(date: "2023.12.22", keyword: "关键词1", details: "", isFavorite: false),
-        TestRecords(date: "2023.12.22", keyword: "快乐的谈话", details: "", isFavorite: false),
-    ]),
-    TestRecordSections(id: "2024.07.05", records: [
-        TestRecords(date: "2024.07.05", keyword: "这是测试数据", details: "", isFavorite: false),
-        TestRecords(date: "2024.07.05", keyword: "哈哈大笑", details: "", isFavorite: false),
-    ]),
-]
+//let recordSections: [TestRecordSections] = [
+//    TestRecordSections(id: "2023.12.22", records: [
+//        TestRecords(date: "2023.12.22", keyword: "关键词1", details: "", isFavorite: false),
+//        TestRecords(date: "2023.12.22", keyword: "快乐的谈话", details: "", isFavorite: false),
+//    ]),
+//    TestRecordSections(id: "2024.07.05", records: [
+//        TestRecords(date: "2024.07.05", keyword: "这是测试数据", details: "", isFavorite: false),
+//        TestRecords(date: "2024.07.05", keyword: "哈哈大笑", details: "", isFavorite: false),
+//    ]),
+//]
 
 struct RecordsHistoryView: View {
     @State private var showDetailsIsOn = false
@@ -54,10 +54,10 @@ struct RecordsHistoryView: View {
     let thisWeek = "thisweek"
     let thisMonth = "thismonth"
     let dateRange = "daterange"
-//    @SectionedFetchRequest<String, DailyRecord> (
-//        sectionIdentifier: \DailyRecord.formattedDate,
-//        sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
-//    ) var recordSections
+    @SectionedFetchRequest<String, DailyRecord> (
+        sectionIdentifier: \DailyRecord.formattedDate,
+        sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
+    ) var recordSections
     
     @Environment(\.managedObjectContext) var viewContext
     
@@ -134,9 +134,11 @@ struct RecordsHistoryView: View {
                                 .padding(.vertical, 3)
                                 .background(.lightBlue)
                             HStack{
-                                ForEach(recordSection.records) { record in
+                                // ForEach(recordSection.records) { record in
+                                ForEach(recordSection) { record in
                                     if( record.keyword != ""){
-                                        Text(record.keyword + ";")
+                                        //Text(record.keyword + ";")
+                                        Text(record.keyword! + ";")
                                     }
                                 }
                                 // for real data:

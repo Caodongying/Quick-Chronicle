@@ -45,7 +45,8 @@ struct ContentView: View {
                             Text("打开编年史")
                         }
                         Spacer()
-                        Button("上传"){ uploadDiary()
+                        Button("上传"){ 
+                            uploadDiary()
                         }
                         
                     }
@@ -100,6 +101,8 @@ struct ContentView: View {
             return
         }
         
+        var allSaved = true
+        
         for result in results
         // result: the range of one keyword-detail pair
         {
@@ -122,30 +125,34 @@ struct ContentView: View {
         
             do{
                 try DataController.shared.addDailyRecord(keyword: keyword, detail: detail, context: viewContext)
-                    
-                // successfully saved the record
-                withAnimation{
-                    labelMessage = "Record is saved."
-                    showLabel = true
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation{
-                        showLabel = false
-                        labelMessage = ""
-                    }
-                }
    
             } catch {
                 // pop up - failed to save
                 activateAlert(
                     title: "Oops🫣",
-                    msg: "Failed to save daily records: \(error.localizedDescription)"
+                    msg: "Failed to save daily records with keyword \(keyword): \(error.localizedDescription)"
                 )
+                allSaved = false
+                break
+            }
+        }
+        
+        if allSaved {
+            // successfully saved the record
+            withAnimation{
+                labelMessage = "Record is saved."
+                showLabel = true
             }
             
-            clearTextEditor()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation{
+                    showLabel = false
+                    labelMessage = ""
+                }
+            }
         }
+        
+        clearTextEditor()
 
     }
     
