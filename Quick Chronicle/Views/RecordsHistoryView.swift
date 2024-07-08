@@ -51,8 +51,7 @@ struct RecordsHistoryView: View {
     @State private var selectDuration = false
     @State private var onlyShowStars = false
     @State private var filterType: FilterType = .default15
-    
-    var predicate: NSPredicate?
+    @State private var predicate: NSPredicate? = nil
     
     
     enum FilterType: String, CaseIterable {
@@ -69,23 +68,6 @@ struct RecordsHistoryView: View {
     ) var recordSections
     
     @Environment(\.managedObjectContext) var viewContext
-    
-    var filteredSections: SectionedFetchResults<String, DailyRecord> {
-        switch filterType {
-        case .thisWeek:
-            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .day, value: -7, to: Date())! as CVarArg, Date() as CVarArg)
-            return recordSections
-        case .thisMonth:
-            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .month, value: -1, to: Date())! as CVarArg, Date() as CVarArg)
-            return recordSections
-        case .dateRange:
-            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as CVarArg, endDate as CVarArg)
-            return recordSections
-        case .default15:
-            recordSections.nsPredicate = nil
-            return recordSections
-        }
-    }
     
     var body: some View {
         VStack {
@@ -109,6 +91,10 @@ struct RecordsHistoryView: View {
                                 selectThisMonth = false
                                 selectDuration = false
                                 filterType = .thisWeek
+                                
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .day, value: -7, to: Date())! as CVarArg, Date() as CVarArg)
+                            } else{
+                                recordSections.nsPredicate = nil
                             }
                         }
                         Toggle("This month", isOn: $selectThisMonth).onChange(of: selectThisMonth){
@@ -116,6 +102,10 @@ struct RecordsHistoryView: View {
                                 selectThisWeek = false
                                 selectDuration = false
                                 filterType = .thisMonth
+                                
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .month, value: -1, to: Date())! as CVarArg, Date() as CVarArg)
+                            } else{
+                                recordSections.nsPredicate = nil
                             }
                         }
                         Toggle("", isOn: $selectDuration).onChange(of: selectDuration){
@@ -123,6 +113,10 @@ struct RecordsHistoryView: View {
                                 selectThisMonth = false
                                 selectThisWeek = false
                                 filterType = .dateRange
+                                
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as CVarArg, endDate as CVarArg)
+                            } else{
+                                recordSections.nsPredicate = nil
                             }
                         }
                         
@@ -153,7 +147,7 @@ struct RecordsHistoryView: View {
             
             VStack {
                 List {
-                    ForEach(filteredSections) { section in
+                    ForEach(recordSections) { section in
                         HStack {
                             Text(section.id)
                                 .padding(.horizontal, 15)
