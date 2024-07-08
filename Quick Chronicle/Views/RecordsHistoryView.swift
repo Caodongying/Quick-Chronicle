@@ -28,16 +28,16 @@ struct TestRecords: Identifiable {
     let isFavorite: Bool
 }
 
-//let recordSections: [TestRecordSections] = [
-//    TestRecordSections(id: "2023.12.22", records: [
-//        TestRecords(date: "2023.12.22", keyword: "关键词1", details: "", isFavorite: false),
-//        TestRecords(date: "2023.12.22", keyword: "快乐的谈话", details: "", isFavorite: false),
-//    ]),
-//    TestRecordSections(id: "2024.07.05", records: [
-//        TestRecords(date: "2024.07.05", keyword: "这是测试数据", details: "", isFavorite: false),
-//        TestRecords(date: "2024.07.05", keyword: "哈哈大笑", details: "", isFavorite: false),
-//    ]),
-//]
+let recordSections: [TestRecordSections] = [
+    TestRecordSections(id: "2023.12.22", records: [
+        TestRecords(date: "2023.12.22", keyword: "关键词1", details: "", isFavorite: false),
+        TestRecords(date: "2023.12.22", keyword: "快乐的谈话", details: "", isFavorite: false),
+    ]),
+    TestRecordSections(id: "2024.07.05", records: [
+        TestRecords(date: "2024.07.05", keyword: "这是测试数据", details: "", isFavorite: false),
+        TestRecords(date: "2024.07.05", keyword: "哈哈大笑", details: "", isFavorite: false),
+    ]),
+]
 
 struct RecordsHistoryView: View {
     @State private var showDetailsIsOn = false
@@ -45,21 +45,47 @@ struct RecordsHistoryView: View {
     @State private var endDate = Date()
     @State private var searchByDateText = ""
     @State private var searchByContentText = ""
+    //@State private var selectAll = false
     @State private var selectThisWeek = false
     @State private var selectThisMonth = false
     @State private var selectDuration = false
     @State private var onlyShowStars = false
-    @State private var resultRange:String = ""
+    @State private var filterType: FilterType = .default15
     
-    let thisWeek = "thisweek"
-    let thisMonth = "thismonth"
-    let dateRange = "daterange"
+    var predicate: NSPredicate?
+    
+    
+    enum FilterType: String, CaseIterable {
+        //case all = "all"
+        case thisWeek = "thisweek"
+        case thisMonth = "thismonth"
+        case dateRange = "daterange"
+        case default15 = "default15"
+    }
+    
     @SectionedFetchRequest<String, DailyRecord> (
         sectionIdentifier: \DailyRecord.formattedDate,
         sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
     ) var recordSections
     
     @Environment(\.managedObjectContext) var viewContext
+    
+    var filteredSections: SectionedFetchResults<String, DailyRecord> {
+        switch filterType {
+        case .thisWeek:
+            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .day, value: -7, to: Date())! as CVarArg, Date() as CVarArg)
+            return recordSections
+        case .thisMonth:
+            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .month, value: -1, to: Date())! as CVarArg, Date() as CVarArg)
+            return recordSections
+        case .dateRange:
+            recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as CVarArg, endDate as CVarArg)
+            return recordSections
+        case .default15:
+            recordSections.nsPredicate = nil
+            return recordSections
+        }
+    }
     
     var body: some View {
         VStack {
@@ -82,21 +108,21 @@ struct RecordsHistoryView: View {
                             if selectThisWeek {
                                 selectThisMonth = false
                                 selectDuration = false
-                                resultRange = thisWeek
+                                filterType = .thisWeek
                             }
                         }
                         Toggle("This month", isOn: $selectThisMonth).onChange(of: selectThisMonth){
                             if selectThisMonth {
                                 selectThisWeek = false
                                 selectDuration = false
-                                resultRange = thisMonth
+                                filterType = .thisMonth
                             }
                         }
                         Toggle("", isOn: $selectDuration).onChange(of: selectDuration){
                             if selectDuration {
                                 selectThisMonth = false
                                 selectThisWeek = false
-                                resultRange = dateRange
+                                filterType = .dateRange
                             }
                         }
                         
@@ -127,27 +153,18 @@ struct RecordsHistoryView: View {
             
             VStack {
                 List {
-                    ForEach(recordSections) { recordSection in
+                    ForEach(filteredSections) { section in
                         HStack {
-                            Text(recordSection.id)
+                            Text(section.id)
                                 .padding(.horizontal, 15)
                                 .padding(.vertical, 3)
                                 .background(.lightBlue)
                             HStack{
-                                // ForEach(recordSection.records) { record in
-                                ForEach(recordSection) { record in
+                                ForEach(section) { record in
                                     if( record.keyword != ""){
-                                        //Text(record.keyword + ";")
                                         Text(record.keyword! + ";")
                                     }
                                 }
-                                // for real data:
-//                                ForEach(recordSection) { record in
-//                                    if( record.keyword != ""){
-//                                        Text(record.keyword! + ";")
-//
-//                                    }
-//                                }
                             }
                             .padding(.vertical, 3)
                             
@@ -155,6 +172,7 @@ struct RecordsHistoryView: View {
                     }
                     .background(.blueGray)
                     .listRowSeparator(.hidden)
+                    //.searchable(text: $resultRange)
                 }
             }
             

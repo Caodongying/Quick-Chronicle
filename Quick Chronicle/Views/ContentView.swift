@@ -45,7 +45,7 @@ struct ContentView: View {
                             Text("打开编年史")
                         }
                         Spacer()
-                        Button("上传"){ 
+                        Button("上传"){
                             uploadDiary()
                         }
                         
