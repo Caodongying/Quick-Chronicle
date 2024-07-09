@@ -7,11 +7,17 @@
 
 import SwiftUI
 
-extension DailyRecord {
-    @objc
-    var formattedDate: String { date?.formatted(date: .numeric, time: .omitted) ?? "No Date Available" }
+func formatDate(_ date: Date) -> String {
+    return date.formatted(date: .numeric, time: .omitted)
 }
 
+//extension DailyRecord {
+//    @objc
+//    //var formattedDate: String { date?.formatted(date: .numeric, time: .omitted) ?? "No Date Available" }
+//    var formattedDate: String {
+//        return formatDate(date: date!)
+//    }
+//}
 
 // only for real-time preview
 struct TestRecordSections: Identifiable {
@@ -43,7 +49,6 @@ struct RecordsHistoryView: View {
     @State private var showDetailsIsOn = false
     @State private var startDate = Date()
     @State private var endDate = Date()
-    @State private var searchByDateText = ""
     @State private var searchByContentText = ""
     //@State private var selectAll = false
     @State private var selectThisWeek = false
@@ -63,7 +68,7 @@ struct RecordsHistoryView: View {
     }
     
     @SectionedFetchRequest<String, DailyRecord> (
-        sectionIdentifier: \DailyRecord.formattedDate,
+        sectionIdentifier: \DailyRecord.date!,
         sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
     ) var recordSections
     
@@ -92,7 +97,7 @@ struct RecordsHistoryView: View {
                                 selectDuration = false
                                 filterType = .thisWeek
                                 
-                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .day, value: -7, to: Date())! as CVarArg, Date() as CVarArg)
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .day, value: -7, to: Date())!), formatDate(Date()))
                             } else{
                                 recordSections.nsPredicate = nil
                             }
@@ -103,7 +108,7 @@ struct RecordsHistoryView: View {
                                 selectDuration = false
                                 filterType = .thisMonth
                                 
-                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", Calendar.current.date(byAdding: .month, value: -1, to: Date())! as CVarArg, Date() as CVarArg)
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .month, value: -1, to: Date())!), formatDate(Date()))
                             } else{
                                 recordSections.nsPredicate = nil
                             }
@@ -114,7 +119,7 @@ struct RecordsHistoryView: View {
                                 selectThisWeek = false
                                 filterType = .dateRange
                                 
-                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as CVarArg, endDate as CVarArg)
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(startDate), formatDate(endDate))
                             } else{
                                 recordSections.nsPredicate = nil
                             }
@@ -122,13 +127,23 @@ struct RecordsHistoryView: View {
                         
                         DatePicker("From",
                                    selection: $startDate,
+                                   in: ...Date(), 
                                    displayedComponents: .date
-                        ).datePickerStyle(.compact)
+                        ).datePickerStyle(.compact).onChange(of: startDate){
+                            if selectDuration {
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(startDate), formatDate(endDate))
+                            }
+                        }
                         
                         DatePicker("To",
                                    selection: $endDate,
+                                   in: ...Date(),
                                    displayedComponents: .date
-                        ).datePickerStyle(.compact)
+                        ).datePickerStyle(.compact).onChange(of: endDate){
+                            if selectDuration {
+                                recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(startDate), formatDate(endDate))
+                            }
+                        }
                     }.toggleStyle(.checkbox)
                     
                    

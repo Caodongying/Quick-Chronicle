@@ -25,13 +25,17 @@ class DataController: ObservableObject {
         return container
     }()
     
+    func formatDate(date: Date) -> String {
+        return date.formatted(date: .numeric, time: .omitted)
+    }
+    
     func addDailyRecord(keyword: String, detail: String, context: NSManagedObjectContext) throws{
         let record = DailyRecord(context: context)
         
         record.id = UUID()
         record.keyword = keyword
         record.detail = detail
-        record.date = Date()
+        record.date = formatDate(date: Date())
         
         do{
             try context.save()
