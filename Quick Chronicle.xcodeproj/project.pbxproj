@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		172B7DBA2C3ED36A0014E886 /* V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 172B7DB92C3ED36A0014E886 /* V1toV2.xcmappingmodel */; };
 		176659D12B4AD5E0005EC544 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659CF2B4AD5E0005EC544 /* DataController.swift */; };
 		17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */; };
 		17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */; };
@@ -17,6 +18,7 @@
 		17C1DEDB2B4A52D9007FCC6D /* Quick_ChronicleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEDA2B4A52D9007FCC6D /* Quick_ChronicleTests.swift */; };
 		17C1DEE52B4A52D9007FCC6D /* Quick_ChronicleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEE42B4A52D9007FCC6D /* Quick_ChronicleUITests.swift */; };
 		17C1DEE72B4A52D9007FCC6D /* Quick_ChronicleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEE62B4A52D9007FCC6D /* Quick_ChronicleUITestsLaunchTests.swift */; };
+		17CBF16F2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBF16E2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		172B7DB92C3ED36A0014E886 /* V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick ChronicleDebug.entitlements"; sourceTree = "<group>"; };
 		176659CF2B4AD5E0005EC544 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsHistoryView.swift; sourceTree = "<group>"; };
@@ -52,6 +55,9 @@
 		17C1DEE02B4A52D9007FCC6D /* Quick ChronicleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Quick ChronicleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C1DEE42B4A52D9007FCC6D /* Quick_ChronicleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quick_ChronicleUITests.swift; sourceTree = "<group>"; };
 		17C1DEE62B4A52D9007FCC6D /* Quick_ChronicleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quick_ChronicleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		17CBF16D2C3EBE1700ACD1FC /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		17CBF16E2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1toV2MigrationPolicy.swift; sourceTree = "<group>"; };
+		17CBF1702C3EBF3100ACD1FC /* Quick_Chronicle v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Quick_Chronicle v2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +133,9 @@
 				17C1DEC72B4A52D9007FCC6D /* Assets.xcassets */,
 				17C1DED12B4A52D9007FCC6D /* Quick_Chronicle.entitlements */,
 				17C1DEC92B4A52D9007FCC6D /* Preview Content */,
+				17CBF16D2C3EBE1700ACD1FC /* CHANGELOG.md */,
+				17CBF16E2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift */,
+				172B7DB92C3ED36A0014E886 /* V1toV2.xcmappingmodel */,
 			);
 			path = "Quick Chronicle";
 			sourceTree = "<group>";
@@ -286,11 +295,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17CBF16F2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift in Sources */,
 				17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */,
 				17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */,
 				176659D12B4AD5E0005EC544 /* DataController.swift in Sources */,
 				17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */,
 				17C1DED02B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld in Sources */,
+				172B7DBA2C3ED36A0014E886 /* V1toV2.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,9 +631,10 @@
 		17C1DECE2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				17CBF1702C3EBF3100ACD1FC /* Quick_Chronicle v2.xcdatamodel */,
 				17C1DECF2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodel */,
 			);
-			currentVersion = 17C1DECF2B4A52D9007FCC6D /* Quick_Chronicle.xcdatamodel */;
+			currentVersion = 17CBF1702C3EBF3100ACD1FC /* Quick_Chronicle v2.xcdatamodel */;
 			path = Quick_Chronicle.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

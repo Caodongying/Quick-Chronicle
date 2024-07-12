@@ -13,9 +13,9 @@ func formatDate(_ date: Date) -> String {
 
 //extension DailyRecord {
 //    @objc
-//    //var formattedDate: String { date?.formatted(date: .numeric, time: .omitted) ?? "No Date Available" }
+//    var formattedDate: String { date?.formatted(date: .numeric, time: .omitted) ?? "No Date Available" }
 //    var formattedDate: String {
-//        return formatDate(date: date!)
+//        return formatDate(date!)
 //    }
 //}
 
@@ -69,6 +69,7 @@ struct RecordsHistoryView: View {
     
     @SectionedFetchRequest<String, DailyRecord> (
         sectionIdentifier: \DailyRecord.date!,
+        //sectionIdentifier: \DailyRecord.formattedDate,
         sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
     ) var recordSections
     

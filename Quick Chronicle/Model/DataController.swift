@@ -17,6 +17,23 @@ class DataController: ObservableObject {
     
     var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Quick_Chronicle")
+        
+        
+        // I googled this
+        let description = NSPersistentStoreDescription()
+        description.shouldInferMappingModelAutomatically = true
+        description.shouldMigrateStoreAutomatically = true
+        
+        // Set store location (default location is in the app's documents directory)
+//        let storeURL = FileManager.default
+//            .urls(for: .documentDirectory, in: .userDomainMask)
+//            .first!
+//            .appendingPathComponent("Quick_Chronicle.sqlite")
+//        description.url = storeURL
+        
+        container.persistentStoreDescriptions.append(description)
+        
+        
         container.loadPersistentStores { _, error in
             if let error = error {
                 print("Failed to load the data \(error.localizedDescription)")
@@ -36,6 +53,7 @@ class DataController: ObservableObject {
         record.keyword = keyword
         record.detail = detail
         record.date = formatDate(date: Date())
+        //record.date = Date()
         
         do{
             try context.save()

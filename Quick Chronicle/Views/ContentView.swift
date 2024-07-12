@@ -41,8 +41,11 @@ struct ContentView: View {
                     
                     
                     HStack{
-                        NavigationLink(destination: RecordsHistoryView()) {
-                            Text("打开编年史")
+//                        NavigationLink(destination: RecordsHistoryView()) {
+//                            Text("打开编年史")
+//                        }
+                        Button("打开编年史"){
+                            openHistory()
                         }
                         Spacer()
                         Button("上传"){
@@ -160,8 +163,10 @@ struct ContentView: View {
         showHistory.toggle()
         print("showHistory is: " + String(showHistory))
         let records = fetchDailyRecord(context: viewContext)
+        print(records)
         for record in records{
             print("key: \(String(describing: record.keyword))")
+            print("date: \(String(describing: record.date))")
             print("detail: \(String(describing: record.detail))")
             print("id: \(String(describing: record.id))")
         }
