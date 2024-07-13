@@ -160,10 +160,14 @@ struct ContentView: View {
     }
     
     func openHistory() {
+//        if let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//               let sqliteURL = urls.appendingPathComponent("Quick_Chronicle.sqlite")
+//               print("SQLite file path: \(sqliteURL.path)")
+//           }
+        
         showHistory.toggle()
         print("showHistory is: " + String(showHistory))
         let records = fetchDailyRecord(context: viewContext)
-        print(records)
         for record in records{
             print("key: \(String(describing: record.keyword))")
             print("date: \(String(describing: record.date))")

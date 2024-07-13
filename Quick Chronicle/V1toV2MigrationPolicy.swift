@@ -35,6 +35,12 @@ class MigrationFromV1ToV2: NSEntityMigrationPolicy {
                 }
             }
             
+            do {
+                try destinationInstance.managedObjectContext?.save()
+            } catch {
+                print("Failed to save context after migration: \(error)")
+            }
+            
             manager.associate(sourceInstance: sInstance, withDestinationInstance: destinationInstance, for: mapping)
             
         }

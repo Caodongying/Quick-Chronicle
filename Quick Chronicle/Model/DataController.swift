@@ -21,15 +21,8 @@ class DataController: ObservableObject {
         
         // I googled this
         let description = NSPersistentStoreDescription()
-        description.shouldInferMappingModelAutomatically = true
+        description.shouldInferMappingModelAutomatically = false
         description.shouldMigrateStoreAutomatically = true
-        
-        // Set store location (default location is in the app's documents directory)
-//        let storeURL = FileManager.default
-//            .urls(for: .documentDirectory, in: .userDomainMask)
-//            .first!
-//            .appendingPathComponent("Quick_Chronicle.sqlite")
-//        description.url = storeURL
         
         container.persistentStoreDescriptions.append(description)
         
@@ -39,6 +32,11 @@ class DataController: ObservableObject {
                 print("Failed to load the data \(error.localizedDescription)")
             }
         }
+        
+//        if let url = container.persistentStoreCoordinator.persistentStores.first?.url {
+//            print(url)
+//        }
+        
         return container
     }()
     

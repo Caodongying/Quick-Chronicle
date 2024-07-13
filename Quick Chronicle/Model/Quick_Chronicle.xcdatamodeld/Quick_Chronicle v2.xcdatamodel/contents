@@ -2,10 +2,10 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="DailyRecord" representedClassName=".DailyRecord" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="String" defaultValueString="1999-11-08"/>
-        <attribute name="detail" optional="YES" attributeType="String"/>
+        <attribute name="detail" optional="YES" attributeType="String" defaultValueString="No Detail"/>
         <attribute name="favourite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="keyword" optional="YES" attributeType="String"/>
+        <attribute name="keyword" optional="YES" attributeType="String" defaultValueString="No Keyword"/>
     </entity>
     <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
 </model>
