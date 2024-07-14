@@ -17,6 +17,7 @@ class DataController: ObservableObject {
     
     var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Quick_Chronicle")
+        container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         
         
         // I googled this
@@ -33,9 +34,9 @@ class DataController: ObservableObject {
             }
         }
         
-//        if let url = container.persistentStoreCoordinator.persistentStores.first?.url {
-//            print(url)
-//        }
+        if let url = container.persistentStoreCoordinator.persistentStores.first?.url {
+            print(url)
+        }
         
         return container
     }()
