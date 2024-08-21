@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		172B7DBA2C3ED36A0014E886 /* V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 172B7DB92C3ED36A0014E886 /* V1toV2.xcmappingmodel */; };
 		176659D12B4AD5E0005EC544 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176659CF2B4AD5E0005EC544 /* DataController.swift */; };
+		1776EB912C766CF600D1DCEC /* DatabaseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1776EB902C766CF600D1DCEC /* DatabaseOperation.swift */; };
 		17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */; };
 		17C1DEC42B4A52D7007FCC6D /* Quick_ChronicleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */; };
 		17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C1DEC52B4A52D7007FCC6D /* ContentView.swift */; };
@@ -42,6 +43,7 @@
 		172B7DB92C3ED36A0014E886 /* V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		176659CE2B4AB2F6005EC544 /* Quick ChronicleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick ChronicleDebug.entitlements"; sourceTree = "<group>"; };
 		176659CF2B4AD5E0005EC544 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		1776EB902C766CF600D1DCEC /* DatabaseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseOperation.swift; sourceTree = "<group>"; };
 		17A2EAD12C31711E00A58DEF /* RecordsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsHistoryView.swift; sourceTree = "<group>"; };
 		17C1DEC02B4A52D7007FCC6D /* Quick Chronicle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Chronicle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quick_ChronicleApp.swift; sourceTree = "<group>"; };
@@ -103,6 +105,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		1776EB8F2C766CD000D1DCEC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1776EB902C766CF600D1DCEC /* DatabaseOperation.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		17C1DEB72B4A52D7007FCC6D = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +136,8 @@
 		17C1DEC22B4A52D7007FCC6D /* Quick Chronicle */ = {
 			isa = PBXGroup;
 			children = (
+				1776EB8F2C766CD000D1DCEC /* Utilities */,
+				17D0ABFE2C652B32008C3F35 /* Scripts */,
 				17C1DEC32B4A52D7007FCC6D /* Quick_ChronicleApp.swift */,
 				176659D42B4D3106005EC544 /* Views */,
 				176659D32B4D0FFC005EC544 /* Model */,
@@ -163,6 +175,13 @@
 				17C1DEE62B4A52D9007FCC6D /* Quick_ChronicleUITestsLaunchTests.swift */,
 			);
 			path = "Quick ChronicleUITests";
+			sourceTree = "<group>";
+		};
+		17D0ABFE2C652B32008C3F35 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1776EB912C766CF600D1DCEC /* DatabaseOperation.swift in Sources */,
 				17CBF16F2C3EBE5900ACD1FC /* V1toV2MigrationPolicy.swift in Sources */,
 				17A2EAD22C31711E00A58DEF /* RecordsHistoryView.swift in Sources */,
 				17C1DEC62B4A52D7007FCC6D /* ContentView.swift in Sources */,

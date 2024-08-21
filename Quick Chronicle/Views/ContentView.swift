@@ -41,11 +41,11 @@ struct ContentView: View {
                     
                     
                     HStack{
-//                        NavigationLink(destination: RecordsHistoryView()) {
-//                            Text("打开编年史")
-//                        }
-                        Button("打开编年史"){
-                            openHistory()
+                        NavigationLink(destination: RecordsHistoryView()) {
+                            Text("打开编年史")
+                        }
+                        Button("修复UUID"){
+                            runUUIDFixer()
                         }
                         Spacer()
                         Button("上传"){
@@ -167,7 +167,7 @@ struct ContentView: View {
         
         showHistory.toggle()
         print("showHistory is: " + String(showHistory))
-        let records = fetchDailyRecord(context: viewContext)
+        let records = DatabaseUtils.fetchDailyRecord(context: viewContext)
         for record in records{
             print("key: \(String(describing: record.keyword))")
             print("date: \(String(describing: record.date))")
@@ -177,20 +177,16 @@ struct ContentView: View {
         
     }
     
-    func fetchDailyRecord(context: NSManagedObjectContext) -> [DailyRecord]{
-        let fetchRequest: NSFetchRequest<DailyRecord> = DailyRecord.fetchRequest()
-        
-        do{
-            let records = try context.fetch(fetchRequest)
-            return records
-        } catch {
-            print("Failed to fetch daily records: \(error)")
-            return []
-        }
-    }
-    
     private func clearTextEditor(){
         textInput = ""
+    }
+    
+    private func runUUIDFixer() {
+        do {
+            try DataBaseFix.addMissingUUID(context: viewContext)
+        } catch {
+            print("Error when fixing the missing UUID \(error)")
+        }
     }
 }
 
@@ -207,6 +203,7 @@ extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -214,7 +211,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
 
 
 #Preview {

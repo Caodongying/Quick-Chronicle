@@ -114,6 +114,8 @@ struct RecordsHistoryView: View {
                                 recordSections.nsPredicate = nil
                             }
                         }
+//                        Text(formatDate(startDate))
+//                        Text(formatDate(endDate))
                         Toggle("", isOn: $selectDuration).onChange(of: selectDuration){
                             if selectDuration {
                                 selectThisMonth = false
@@ -171,7 +173,7 @@ struct RecordsHistoryView: View {
                                 .background(.lightBlue)
                             HStack{
                                 ForEach(section) { record in
-                                    if( record.keyword != ""){
+                                    if( record.keyword != "" && record.keyword != nil){
                                         Text(record.keyword! + ";")
                                     }
                                 }
@@ -202,6 +204,7 @@ struct RecordsHistoryView: View {
     func groupByDate(records: [DailyRecord]){
         
     }
+    
 }
 
 #Preview {
