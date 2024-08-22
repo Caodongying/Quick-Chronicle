@@ -93,38 +93,41 @@ struct RecordsHistoryView: View {
                     HStack{
                         // only one of the three checkboxes can be selected. This is a stupid solution, but I don't have better ideas so far.
                         Toggle("This week", isOn: $selectThisWeek).onChange(of: selectThisWeek){
+                            checkEmptyDateFilter()
                             if selectThisWeek {
                                 selectThisMonth = false
                                 selectDuration = false
                                 filterType = .thisWeek
                                 
                                 recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .day, value: -7, to: Date())!), formatDate(Date()))
-                            } else{
-                                recordSections.nsPredicate = nil
+                                print("nsPredicate for this week executed")
+                                print(recordSections.nsPredicate)
                             }
                         }
                         Toggle("This month", isOn: $selectThisMonth).onChange(of: selectThisMonth){
+                            checkEmptyDateFilter()
                             if selectThisMonth {
                                 selectThisWeek = false
                                 selectDuration = false
                                 filterType = .thisMonth
                                 
                                 recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .month, value: -1, to: Date())!), formatDate(Date()))
-                            } else{
-                                recordSections.nsPredicate = nil
+                                print("nsPredicate for this month executed")
+                                print(recordSections.nsPredicate)
                             }
                         }
 //                        Text(formatDate(startDate))
 //                        Text(formatDate(endDate))
                         Toggle("", isOn: $selectDuration).onChange(of: selectDuration){
+                            checkEmptyDateFilter()
                             if selectDuration {
                                 selectThisMonth = false
                                 selectThisWeek = false
                                 filterType = .dateRange
                                 
                                 recordSections.nsPredicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(startDate), formatDate(endDate))
-                            } else{
-                                recordSections.nsPredicate = nil
+                                
+                                print(recordSections.nsPredicate)
                             }
                         }
                         
@@ -203,6 +206,14 @@ struct RecordsHistoryView: View {
     
     func groupByDate(records: [DailyRecord]){
         
+    }
+    
+    func checkEmptyDateFilter() {
+        let dateFiltered = selectThisWeek || selectThisMonth || selectDuration
+        print("dateFiltered is \(dateFiltered)")
+        if (!dateFiltered) {
+            recordSections.nsPredicate = nil
+        }
     }
     
 }
