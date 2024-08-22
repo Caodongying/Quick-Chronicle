@@ -50,7 +50,6 @@ struct RecordsHistoryView: View {
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var searchByContentText = ""
-    //@State private var selectAll = false
     @State private var selectThisWeek = false
     @State private var selectThisMonth = false
     @State private var selectDuration = false
@@ -60,7 +59,6 @@ struct RecordsHistoryView: View {
     
     
     enum FilterType: String, CaseIterable {
-        //case all = "all"
         case thisWeek = "thisweek"
         case thisMonth = "thismonth"
         case dateRange = "daterange"
@@ -70,8 +68,7 @@ struct RecordsHistoryView: View {
     @SectionedFetchRequest<String, DailyRecord> (
         sectionIdentifier: \DailyRecord.date!,
         //sectionIdentifier: \DailyRecord.formattedDate,
-        sortDescriptors: [SortDescriptor(\.date, order: .reverse)],
-        predicate: nil
+        sortDescriptors: [SortDescriptor(\.date, order: .reverse)]
     ) var recordSections
     
     @Environment(\.managedObjectContext) var viewContext
@@ -101,8 +98,6 @@ struct RecordsHistoryView: View {
                                 filterType = .thisWeek
                                 
                                 predicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .day, value: -7, to: Date())!), formatDate(Date()))
-                                print("nsPredicate for this week executed")
-                                print(recordSections.nsPredicate)
                             }
                         }
                         Toggle("This month", isOn: $selectThisMonth).onChange(of: selectThisMonth){
@@ -113,8 +108,6 @@ struct RecordsHistoryView: View {
                                 filterType = .thisMonth
                                 
                                 predicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(Calendar.current.date(byAdding: .month, value: -1, to: Date())!), formatDate(Date()))
-                                print("nsPredicate for this month executed")
-                                print(recordSections.nsPredicate)
                             }
                         }
 //                        Text(formatDate(startDate))
@@ -127,8 +120,6 @@ struct RecordsHistoryView: View {
                                 filterType = .dateRange
                                 
                                 predicate = NSPredicate(format: "date >= %@ AND date <= %@", formatDate(startDate), formatDate(endDate))
-                                
-                                print(recordSections.nsPredicate)
                             }
                         }
                         
